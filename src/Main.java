@@ -11,6 +11,8 @@ import creationalPattern.prototypePattern.EmployeeRecord;
 import creationalPattern.singletonPattern.SingleTon;
 import structuralPattern.adapterPattern.BankCustomer;
 import structuralPattern.adapterPattern.CreditCard;
+import structuralPattern.bridgePattern.JavaQuestions;
+import structuralPattern.bridgePattern.QuestionFormat;
 
 /**
  * The type Main.
@@ -166,5 +168,18 @@ public class Main {
                 interface는 행위에 관련되게 정의를 한다.*/
         /*--------------------------------adapterPattern----------------------------------*/
 
+        /*----------------------------------bridgePattern------------------------------------*/
+        /*Question interface 구현 및 정의 JavaQuestions
+                QuestionManager은 Question interface함수를 호출한다.
+        즉, 어떤 Questions이든 QuestionsInterface를 정의하면 QuestionManager가 사용가능
+        QuestionFormat이 굳이 필요한 이유가? 아직 잘 모르겠음.*/
+        QuestionFormat questions = new QuestionFormat("Java Programming Language");
+        questions.q = new JavaQuestions();
+        questions.delete("what is class?");
+        questions.display();
+        questions.newOne("What is inheritance? ");
+        questions.newOne("How many types of inheritance are there in java?");
+        questions.displayAll();
+        /*----------------------------------bridgePattern------------------------------------*/
     }
 }
