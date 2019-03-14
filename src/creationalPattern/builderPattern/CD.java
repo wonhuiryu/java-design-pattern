@@ -1,4 +1,5 @@
 package creationalPattern.builderPattern;
 
-public class CD {
+abstract class CD implements Packing{
+    public abstract String pack();
 }

@@ -1,4 +1,5 @@
 package creationalPattern.builderPattern;
 
-public class Company {
+public abstract class Company implements Packing{
+    public abstract int price();
 }

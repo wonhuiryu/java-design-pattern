@@ -2,14 +2,26 @@ import creationalPattern.abstractFactoryPattern.AbstractFactory;
 import creationalPattern.abstractFactoryPattern.Bank;
 import creationalPattern.abstractFactoryPattern.FactoryCreator;
 import creationalPattern.abstractFactoryPattern.Loan;
+import creationalPattern.builderPattern.CDBuilder;
+import creationalPattern.builderPattern.CDType;
 import creationalPattern.factoryMethodPattern.GetPlanFactory;
 import creationalPattern.factoryMethodPattern.Plan;
+import creationalPattern.objectPoolPattern.ObjectPoolDemo;
+import creationalPattern.prototypePattern.EmployeeRecord;
 import creationalPattern.singletonPattern.SingleTon;
 
+/**
+ * The type Main.
+ */
 /*2019.03.14
 * by wonhui ryu*/
 public class Main {
 
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     */
     public static void main(String[] args) {
 
         /*-------------------factory method Pattern------------------------*/
@@ -54,14 +66,86 @@ public class Main {
         /*--------------------abstract factory method Pattern-----------------*/
 
         /*-------------------------singleton Pattern--------------------------*/
-        SingleTon singleTon = SingleTon.getInstance();//기본적인 싱글톤 패턴.
+        //한개의 인스턴스를 메모리에 올려 계속 사용한다.
+        SingleTon singleTon = SingleTon.getInstance();
         /*-------------------------singleton Pattern--------------------------*/
 
-        
-        /*-------------------------protoType Pattern--------------------------*/
 
         /*-------------------------protoType Pattern--------------------------*/
+        //인스턴스의 멤버변수들의 값을 갖고 새로운 객체로 값만 복사하게 끔 만드는 패턴
+        //아래의 주소값을 보면 다른 걸 알 수 있음.
+        EmployeeRecord employeeRecord = new EmployeeRecord(930309, "유원희", "daeri", 1000000, "Suwon");
+        employeeRecord.showRecord();
+        EmployeeRecord employeeRecord2 = (EmployeeRecord)employeeRecord.getClone();//Prototype형을 반환한다. 자식형으로 캐스팅해준다.
+        employeeRecord2.showRecord();
+        System.out.println(employeeRecord.hashCode());
+        System.out.println(employeeRecord2.hashCode());
+        /*-------------------------protoType Pattern--------------------------*/
 
 
+        /*---------------------------builderPattern-------------------------------*/
+        /*Comment : Packing 인터페이스를 구현한 추상클래스 CD, Company
+                Company를 상속받은 Samsung, Sony는 price 함수와 pack함수를 정의하였다.
+        CDType에선 Packing 인터페이스 타입의 리스트를 선언하고. addMethod를 정의한다.
+        CDBuilder에선 CDType 클래스에서 정의한 변수와 함수로 삼성과 소니를 빌드하는
+        함수를 정의한다. */
+        CDBuilder cdBuilder = new CDBuilder();
+
+        CDType cdType1 = cdBuilder.buildSonyCD();
+        cdType1.showItems();
+
+        CDType cdType2 = cdBuilder.buildSamsungCD();
+        cdType2.showItems();
+        /*Final-Comment : 대략적으로 하나의 객체를 몇단계로 세부적으로 나눌지에 대한 문제이다.
+        interface -> abstract class -> abstract class의 형태로 계보를 타고 내려간다.
+        ** 결국, 자신이 원하는 값들을 담아준 후 해당 인스턴스를 얻는다. */
+        /*---------------------------builderPattern-------------------------------*/
+
+
+        /*It boosts the performance of the application significantly.*/
+        /*--------------------------objectPoolPattern-----------------------------*/
+
+
+        /*--------------------------objectPoolPattern-----------------------------*/
+
+
+
+        /*----------------------------thread Test------------------------------------*/
+        int N = 77777777;
+        long t;
+
+        //thread-safe
+        {
+            StringBuffer sb = new StringBuffer();
+            t = System.currentTimeMillis();
+            for (int i = N; i --> 0 ;) {
+                sb.append("");
+            }
+            System.out.println(System.currentTimeMillis() - t);
+        }
+
+        //thread-non-safe
+        //if using local variable(instance) each thread will get its own instance in tomcat
+        //-> params not member variable
+        {
+            StringBuilder sb = new StringBuilder();
+            t = System.currentTimeMillis();
+            for (int i = N; i > 0 ; i--) {
+                sb.append("");
+            }
+            System.out.println(System.currentTimeMillis() - t);
+        }
+        /*----------------------------thread Test------------------------------------*/
+
+
+
+        /*-----------------------------objectPoolPattern---------------------------------*/
+/*        오브젝트를 setUp에 셋팅해준만큼 (최소~최대)풀에 넣어 놓고 사용한다는 것 같은데.
+        자세하게 모르겠음. 몇번 봐야할듯함.*/
+        ObjectPoolDemo op = new ObjectPoolDemo();
+        op.setUp();
+        op.teatDown();
+        op.testObjectPool();
+        /*-----------------------------objectPoolPattern---------------------------------*/
     }
 }
