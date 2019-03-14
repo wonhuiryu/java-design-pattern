@@ -9,6 +9,8 @@ import creationalPattern.factoryMethodPattern.Plan;
 import creationalPattern.objectPoolPattern.ObjectPoolDemo;
 import creationalPattern.prototypePattern.EmployeeRecord;
 import creationalPattern.singletonPattern.SingleTon;
+import structuralPattern.adapterPattern.BankCustomer;
+import structuralPattern.adapterPattern.CreditCard;
 
 /**
  * The type Main.
@@ -139,13 +141,30 @@ public class Main {
 
 
 
-        /*-----------------------------objectPoolPattern---------------------------------*/
+        /*TODO-----------------------------objectPoolPattern---------------------------------*/
 /*        오브젝트를 setUp에 셋팅해준만큼 (최소~최대)풀에 넣어 놓고 사용한다는 것 같은데.
         자세하게 모르겠음. 몇번 봐야할듯함.*/
         ObjectPoolDemo op = new ObjectPoolDemo();
         op.setUp();
         op.teatDown();
         op.testObjectPool();
-        /*-----------------------------objectPoolPattern---------------------------------*/
+        /*TODO-----------------------------objectPoolPattern---------------------------------*/
+
+        /*--------------------------------adapterPattern----------------------------------*/
+        /*BankCustomer extends BankDetails implements CreditCard*/
+        CreditCard targetInterface = new BankCustomer();//Interface type에 담는다.
+        targetInterface.giveBankDetails();
+        System.out.print(targetInterface.getCreditCard());
+/*        VO 객체를 생각한다. 단지 VO 객체를 부모로 물려받아 부모의 멤버변수에 값을 넣어준 후
+                또 부모의 멤버 메소드로 값을 꺼내온다.
+        interface에 해야할 일을 명시 한 후, 값을 저장하는 것 꺼내오는 것은 상속받은 부모클래스를 이용(인터페이스정의)
+                신용카드 번호 반환 (인터페이스 정의)
+
+                --> 이렇게 사용하는 이유는? 내 추측엔, 이미 VO를 정의 해놓았고, 해당 VO엔
+                카드를 만드는 데에 필요한 변수가 지정되어 있다. BankCustomer에서 세분화하여
+                부모값은 사용하면서 자신만의 변수에 값을 저장하여 사용할 때에 좋을 것 같다.
+                interface는 행위에 관련되게 정의를 한다.*/
+        /*--------------------------------adapterPattern----------------------------------*/
+
     }
 }
