@@ -1,4 +1,4 @@
 package behavioralPattern.interpreterPattern;
 
-public class InfixToPostfixPattern {
+public class InfixToPostfixPattern implements Pattern {
 }

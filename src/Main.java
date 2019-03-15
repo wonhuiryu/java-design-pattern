@@ -1,3 +1,6 @@
+import behavioralPattern.chainOfResponsibilityPattern.ChainOfResponsibilityClient;
+import behavioralPattern.chainOfResponsibilityPattern.Logger;
+import behavioralPattern.commandPattern.*;
 import creationalPattern.abstractFactoryPattern.AbstractFactory;
 import creationalPattern.abstractFactoryPattern.Bank;
 import creationalPattern.abstractFactoryPattern.FactoryCreator;
@@ -257,6 +260,34 @@ public class Main {
         OfficeInternetAccess access = new ProxyInternetAccess("Ashwani Rajput");
         access.grantInternetAccess();
         /*----------------------------------------proxyPattern--------------------------------------------*/
+
+        /*----------------------------------chainOfResponsibilityPattern-------------------------------------*/
+        /*TODO Comment : 잘 모르겠음. -> 더 봐야함
+
+         */
+        Logger chainLogger= ChainOfResponsibilityClient.doChaining();
+
+        chainLogger.logMessage(Logger.OUTPUTINFO, "Enter the sequence of values ");
+        chainLogger.logMessage(Logger.ERRORINFO, "An error is occured now");
+        chainLogger.logMessage(Logger.DEBUGINFO, "This was the error now debugging is compeled");
+
+        /*----------------------------------chainOfResponsibilityPattern-------------------------------------*/
+
+        /*------------------------------------------commandPattern----------------------------------------------*/
+        /* Comment : 메뉴 Command interface를 구현하고 실행 함수를 정의한다. 클래스 명에 맞는 로직이 정의된다.
+        공통적으로 어떤것이 열렸다. / 저장됬다에 대한 시작점과 끝점의 공통점.
+        -> 어떤 것인지에 대한 세분화 클래스를 만든다. 여기선 Document밖에 없지만. excel, hwp등의 클래스를 정의하여
+        open과 save에서 변수로 관리할 수도 있다. MenuOptions에선 어떠한 행위를 할지를 정하여 Command interface 타입의
+        변수에 대입해준다.
+         */
+        Document document = new Document();
+        ActionListenerCommand actionListenerCommand = new ActionOpen(document);
+        ActionListenerCommand actionListenerCommand1 = new ActionSave(document);
+
+        MenuOptions menuOptions = new MenuOptions(actionListenerCommand, actionListenerCommand1);
+        menuOptions.clickOpen();
+        menuOptions.clickSave();
+        /*------------------------------------------commandPattern----------------------------------------------*/
 
 
     }
