@@ -13,6 +13,17 @@ import structuralPattern.adapterPattern.BankCustomer;
 import structuralPattern.adapterPattern.CreditCard;
 import structuralPattern.bridgePattern.JavaQuestions;
 import structuralPattern.bridgePattern.QuestionFormat;
+import structuralPattern.compositePattern.Accountant;
+import structuralPattern.compositePattern.BankManager;
+import structuralPattern.compositePattern.Cashier;
+import structuralPattern.compositePattern.Employee;
+import structuralPattern.decoratePattern.ChineseFood;
+import structuralPattern.decoratePattern.Food;
+import structuralPattern.decoratePattern.NonVegFood;
+import structuralPattern.decoratePattern.VegFood;
+import structuralPattern.facadePattern.ShopKeeper;
+import structuralPattern.proxyPattern.OfficeInternetAccess;
+import structuralPattern.proxyPattern.ProxyInternetAccess;
 
 /**
  * The type Main.
@@ -181,5 +192,72 @@ public class Main {
         questions.newOne("How many types of inheritance are there in java?");
         questions.displayAll();
         /*----------------------------------bridgePattern------------------------------------*/
+
+        /*------------------------------------compositePattern----------------------------------*/
+        /*Comment : BankManger 즉, 총괄 관리인 클래스에서만 CRUD method를 정의해주고, 나머지의 직급
+        또는 역할 클래스에는 method를 정의해주지 않는다. 공통 Interface를 정의한 총괄관리인, 나머지 직급,역할
+        들은 종업원 타입의 리스트에 추가될 수 있다.
+         */
+        Employee emp1 = new Cashier(101, "Sohan Kumar", 20000.0);
+        Employee emp2 = new Cashier(102, "Mohan Kumar", 25000.0);
+        Employee emp3 = new Accountant(103, "Seema Mahiwal", 30000.0);
+        Employee manager1 = new BankManager(100, "Ashwani Rajput", 100000.0);
+
+        manager1.add(emp1);
+        manager1.add(emp2);
+        manager1.add(emp3);
+        manager1.print();
+        /*Final-Comment : 총괄관리인 말고는 아무도 직원을 고용하거나 자를 수 없다. 상위 - 하위의 개념
+        composite 단어부터 느껴지듯 조합을 하여 최종 결제는 총괄 관리인이 진행한다.
+        */
+        /*------------------------------------compositePattern----------------------------------*/
+
+
+
+        /*--------------------------------------detoratePattern------------------------------------*/
+        Food food = new VegFood();
+
+        //순수한 food
+        System.out.println(food.prepareFood());
+        System.out.println(food.foodPrice());
+
+        //중국 food
+        Food chineseFood = new ChineseFood(food);
+        System.out.println(chineseFood.prepareFood());
+        System.out.println(chineseFood.foodPrice());
+
+        //Non-Veg food
+        Food nonVegFood = new NonVegFood(food);
+        System.out.println(nonVegFood.prepareFood());
+        System.out.println(nonVegFood.foodPrice());
+/*        원래의 설계대로라면 Food Interface만을 구현하여 음식 클래스를 정의하였어야했는데, 해당 인터페이스를
+                구현하여 정의 한 후, 정의한 것에 추가로 무언가 더하고 싶을 때, Food interface를 추상 클래스로 구현한 후
+                그 추상클래스를 상속받아 재정의하는 패턴. chinese, non-veg 클래스는 FoodDecorator 클래스를 상속받고 있기
+                때문에 FoodDecorator 클래스에서 Food Interface의 함수를 호출하는 함수를 정의해야한다.
+                (Food Interface를 구현하고 있는 VegFood 함수를 호출하기 위해선)*/
+        /*--------------------------------------detoratePattern------------------------------------*/
+
+        /*--------------------------------------facadePattern-------------------------------------------*/
+        /* Comment : MobileShop interface 를 구현하여 회사마다 가격과 모델명을 제시한다.
+        ShopKeeper 즉, 주인장은 정의된 메소드로 호출한다. 가장 기본적이라고 생각됨.
+        이 패턴은 행위의 주체(대장)이 되는 클래스에서 클래스를 미리 생성하여 행위하는 동작까지 구현해 놓은것임
+        매개변수를 받아 분기처리를 행하여도 된다고 생각함.
+         */
+        ShopKeeper shopKeeper = new ShopKeeper();
+        shopKeeper.blackBerrySale();
+        shopKeeper.iphoneSale();
+        shopKeeper.samsungSale();
+        /*--------------------------------------facadePattern-------------------------------------------*/
+
+        /*----------------------------------------proxyPattern--------------------------------------------*/
+        /* Comment : 중간에 한번 거쳐 접근 권한이 있는지 체크하며, 접근 권한이 있다면. 원래의 RealAccessClass를
+        생성하여 접근을 시켜준다. 이미 정의된 클래스를 호출하기 전에 무언가의 액션을 실행하고 싶다면 권고하는 패턴.
+         */
+
+        OfficeInternetAccess access = new ProxyInternetAccess("Ashwani Rajput");
+        access.grantInternetAccess();
+        /*----------------------------------------proxyPattern--------------------------------------------*/
+
+
     }
 }
